@@ -1,44 +1,51 @@
+import React from 'react';
 import TicketCard from './(components)/TicketCard';
 
 const getTickets = async () => {
   try {
-    const res = await fetch(
-      'https://vercel.com/smiljanic90/ticketing/api/Tickets',
-      {
-        cache: 'no-cache',
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const res = await fetch('http://localhost:3000/api/Tickets', {
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch topics');
+    }
+
     return res.json();
-  } catch (err) {
-    console.log('Failed to get tickets', err);
+  } catch (error) {
+    console.log('Error loading topics: ', error);
   }
 };
 
 const Dashboard = async () => {
-  const { tickets } = await getTickets();
+  const data = await getTickets();
 
-  const uniqeCategories = [
+  // Make sure we have tickets needed for production build.
+  if (!data?.tickets) {
+    return <p>No tickets.</p>;
+  }
+
+  const tickets = data.tickets;
+
+  const uniqueCategories = [
     ...new Set(tickets?.map(({ category }: any) => category)),
   ];
+
   return (
     <div className="p-5">
       <div>
         {tickets &&
-          uniqeCategories?.map((uniqueCategory: any, categoryIndex) => (
-            <div className="mb-4" key={categoryIndex}>
-              <h2 className="">{uniqueCategory}</h2>
-              <div className="lg:grid grid-cols-2 xl:grid-cols-4">
+          uniqueCategories?.map((uniqueCategory: any, categoryIndex: any) => (
+            <div key={categoryIndex} className="mb-4">
+              <h2>{uniqueCategory}</h2>
+              <div className="lg:grid grid-cols-2 xl:grid-cols-4 ">
                 {tickets
-                  ?.filter(({ category }: any) => category === uniqueCategory)
-                  .map((ticket: any, ticketIndex: any) => (
+                  .filter((ticket: any) => ticket.category === uniqueCategory)
+                  .map((filteredTicket: any, _index: any) => (
                     <TicketCard
-                      key={ticketIndex}
-                      id={ticketIndex}
-                      ticket={ticket}
+                      id={_index}
+                      key={_index}
+                      ticket={filteredTicket}
                     />
                   ))}
               </div>
