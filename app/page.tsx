@@ -2,13 +2,16 @@ import TicketCard from './(components)/TicketCard';
 
 const getTickets = async () => {
   try {
-    const res = await fetch('https://ticketing-tawny.vercel.app/api/Tickets', {
-      cache: 'no-cache',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const res = await fetch(
+      'https://ticketing-jgw1kmira-smiljanic90.vercel.app/api/Tickets',
+      {
+        cache: 'no-cache',
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
     return res.json();
   } catch (err) {
     console.log('Failed to get tickets', err);
