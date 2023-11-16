@@ -27,7 +27,7 @@ const TicketForm = ({ ticket }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (EDIT_MODE) {
-      const res = await fetch(`/api/Tickets/${ticket._id}`, {
+      const res = await fetch(`/Tickets/${ticket._id}`, {
         method: 'PUT',
         body: JSON.stringify({ formData }),
         'content-type': 'application/json',
@@ -39,7 +39,7 @@ const TicketForm = ({ ticket }) => {
       router.push('/');
       return;
     } else {
-      const res = await fetch('/api/Tickets', {
+      const res = await fetch('/Tickets', {
         method: 'POST',
         body: JSON.stringify({ formData }),
         'content-type': 'application/json',
