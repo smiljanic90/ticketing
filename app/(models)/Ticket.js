@@ -1,8 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-mongoose.connect(
-  'mongodb+srv://admin:2Tmo9apALKal9Dzm@cluster0.jfozfvm.mongodb.net/TicketDB'
-);
+mongoose.connect(process.env.MONGODB_URI);
 mongoose.Promise = global.Promise;
 
 const ticketSchema = new Schema(
