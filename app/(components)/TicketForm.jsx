@@ -27,7 +27,7 @@ const TicketForm = ({ ticket }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (EDIT_MODE) {
-      const res = await fetch(`/Tickets/${ticket._id}`, {
+      const res = await fetch(`/api/Tickets/${ticket._id}`, {
         method: 'PUT',
         body: JSON.stringify({ formData }),
         'content-type': 'application/json',
@@ -35,11 +35,9 @@ const TicketForm = ({ ticket }) => {
       if (!res.ok) {
         throw new Error('Failed to update Ticket!');
       }
-      router.refresh();
       router.push('/');
-      return;
     } else {
-      const res = await fetch('/Tickets', {
+      const res = await fetch(`/api/Tickets`, {
         method: 'POST',
         body: JSON.stringify({ formData }),
         'content-type': 'application/json',
@@ -47,9 +45,9 @@ const TicketForm = ({ ticket }) => {
       if (!res.ok) {
         throw new Error('Failed to create Ticket!');
       }
+      router.push('/');
     }
     router.refresh();
-    router.push('/');
   };
   return (
     <div className="flex justify-center">
